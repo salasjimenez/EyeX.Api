@@ -5,8 +5,9 @@ export interface EyeXPalette { background:string; surface:string; text:string; p
 export interface EyeXTheme { type:EyeXType; palette:EyeXPalette; contrast_ok:boolean; }
 export interface EyeXOptions { severity?:EyeXSeverity; mode?:EyeXMode; highContrast?:boolean; }
 export interface EyeXCustomRequest extends EyeXOptions { type:EyeXType; palette:EyeXPalette; }
-export interface EyeXTestAnswers { reds_look_darker:boolean; green_brown_confusion:boolean; blue_yellow_confusion:boolean; colors_look_gray:boolean; }
-export interface EyeXTestResult { suggested_type:EyeXType; disclaimer:string; }
+export interface EyeXTestAnswers { reds_look_darker:boolean; green_brown_confusion:boolean; blue_yellow_confusion:boolean; colors_look_gray:boolean; red_green_confusion?:boolean; red_black_confusion?:boolean; blue_green_confusion?:boolean; yellow_pink_confusion?:boolean; low_saturation_confusion?:boolean; }
+export interface EyeXTestResult { suggested_type:EyeXType; severity:EyeXSeverity; high_contrast:boolean; disclaimer:string; }
+export interface EyeXFeedbackResult { status: "recorded"; }
 export type EyeXSimulationType = 'protanopia' | 'deuteranopia' | 'tritanopia';
 export interface EyeXSimulation { original:string; simulated:string; type:EyeXSimulationType; severity:number; model:string; }
 export interface EyeXSimulatedColor { original:string; simulated:string; }
@@ -24,6 +25,9 @@ export class EyeXClient {
     return this.json<EyeXTheme>(`/api/v1/theme/${encodeURIComponent(type)}${params.length ? `?${params.join('&')}` : ''}`);
   }
   async custom(request:EyeXCustomRequest):Promise<EyeXTheme>{return this.json<EyeXTheme>('/api/v1/theme/custom',{method:'POST',body:JSON.stringify({type:request.type,palette:request.palette,severity:request.severity,mode:request.mode,high_contrast:request.highContrast})});}
+  async feedback(suggestedType: EyeXType, helpful: boolean): Promise<EyeXFeedbackResult> {
+    return this.json<EyeXFeedbackResult>('/api/v1/feedback', {method:'POST',body:JSON.stringify({suggested_type:suggestedType,helpful})});
+  }
   async simulate(hex: string, type: EyeXSimulationType, severity = 1): Promise<EyeXSimulation> {
     return this.json<EyeXSimulation>('/api/v1/simulate',{method:'POST',body:JSON.stringify({hex,type,severity})});
   }

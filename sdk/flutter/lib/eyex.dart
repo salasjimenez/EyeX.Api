@@ -14,13 +14,49 @@ class EyeXTheme {
 }
 class EyeXTestAnswers {
   final bool redsLookDarker, greenBrownConfusion, blueYellowConfusion, colorsLookGray;
-  const EyeXTestAnswers({required this.redsLookDarker,required this.greenBrownConfusion,required this.blueYellowConfusion,required this.colorsLookGray});
-  Map<String,dynamic> toJson()=>{'reds_look_darker':redsLookDarker,'green_brown_confusion':greenBrownConfusion,'blue_yellow_confusion':blueYellowConfusion,'colors_look_gray':colorsLookGray};
+  final bool? redGreenConfusion, redBlackConfusion, blueGreenConfusion,
+      yellowPinkConfusion, lowSaturationConfusion;
+  const EyeXTestAnswers({
+    required this.redsLookDarker,
+    required this.greenBrownConfusion,
+    required this.blueYellowConfusion,
+    required this.colorsLookGray,
+    this.redGreenConfusion,
+    this.redBlackConfusion,
+    this.blueGreenConfusion,
+    this.yellowPinkConfusion,
+    this.lowSaturationConfusion,
+  });
+  Map<String,dynamic> toJson()=>{
+    'reds_look_darker':redsLookDarker,
+    'green_brown_confusion':greenBrownConfusion,
+    'blue_yellow_confusion':blueYellowConfusion,
+    'colors_look_gray':colorsLookGray,
+    if(redGreenConfusion!=null)'red_green_confusion':redGreenConfusion,
+    if(redBlackConfusion!=null)'red_black_confusion':redBlackConfusion,
+    if(blueGreenConfusion!=null)'blue_green_confusion':blueGreenConfusion,
+    if(yellowPinkConfusion!=null)'yellow_pink_confusion':yellowPinkConfusion,
+    if(lowSaturationConfusion!=null)'low_saturation_confusion':lowSaturationConfusion,
+  };
 }
 class EyeXTestResult {
-  final String suggestedType, disclaimer;
-  const EyeXTestResult(this.suggestedType,this.disclaimer);
-  factory EyeXTestResult.fromJson(Map<String,dynamic> j)=>EyeXTestResult(j['suggested_type'],j['disclaimer']);
+  final String suggestedType, disclaimer, severity;
+  final bool highContrast;
+  const EyeXTestResult(this.suggestedType,this.disclaimer,{
+    this.severity='mild',this.highContrast=false,
+  });
+  factory EyeXTestResult.fromJson(Map<String,dynamic> j)=>EyeXTestResult(
+    j['suggested_type'] as String,
+    j['disclaimer'] as String,
+    severity:j['severity'] as String? ?? 'mild',
+    highContrast:j['high_contrast'] as bool? ?? false,
+  );
+}
+class EyeXFeedbackResult {
+  final String status;
+  const EyeXFeedbackResult(this.status);
+  factory EyeXFeedbackResult.fromJson(Map<String,dynamic> j)=>
+      EyeXFeedbackResult(j['status'] as String);
 }
 class EyeXSimulation {
   final String original, simulated, type, model; final double severity;
@@ -57,6 +93,10 @@ class EyeXClient {
   Future<EyeXTheme> custom(String type,EyeXPalette palette,{String? severity,String? mode,bool? highContrast}) async {
     final body=<String,dynamic>{'type':type,'palette':palette.toJson(),if(severity!=null)'severity':severity,if(mode!=null)'mode':mode,if(highContrast!=null)'high_contrast':highContrast};
     return EyeXTheme.fromJson(await _json(Uri.parse('$_base/api/v1/theme/custom'),method:'POST',body:body));
+  }
+  Future<EyeXFeedbackResult> feedback(String suggestedType,bool helpful) async {
+    final data=await _json(Uri.parse('$_base/api/v1/feedback'),method:'POST',body:{'suggested_type':suggestedType,'helpful':helpful});
+    return EyeXFeedbackResult.fromJson(data);
   }
   Future<EyeXSimulation> simulate(String hex,String type,{double severity=1.0}) async {
     final data=await _json(Uri.parse('$_base/api/v1/simulate'),method:'POST',body:{'hex':hex,'type':type,'severity':severity});

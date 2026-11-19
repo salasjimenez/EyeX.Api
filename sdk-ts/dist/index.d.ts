@@ -30,10 +30,20 @@ export interface EyeXTestAnswers {
     green_brown_confusion: boolean;
     blue_yellow_confusion: boolean;
     colors_look_gray: boolean;
+    red_green_confusion?: boolean;
+    red_black_confusion?: boolean;
+    blue_green_confusion?: boolean;
+    yellow_pink_confusion?: boolean;
+    low_saturation_confusion?: boolean;
 }
 export interface EyeXTestResult {
     suggested_type: EyeXType;
+    severity: EyeXSeverity;
+    high_contrast: boolean;
     disclaimer: string;
+}
+export interface EyeXFeedbackResult {
+    status: "recorded";
 }
 export interface EyeXSimulation {
     original: string;
@@ -59,6 +69,7 @@ export declare class EyeXClient {
     theme(type: EyeXType, options?: EyeXOptions): Promise<EyeXTheme>;
     custom(request: EyeXCustomRequest): Promise<EyeXTheme>;
     suggest(answers: EyeXTestAnswers): Promise<EyeXTestResult>;
+    feedback(suggestedType: EyeXType, helpful: boolean): Promise<EyeXFeedbackResult>;
     simulate(hex: string, type: EyeXSimulationType, severity?: number): Promise<EyeXSimulation>;
     simulateBatch(colors: string[], type: EyeXSimulationType, severity?: number): Promise<EyeXBatchSimulation>;
     private get;

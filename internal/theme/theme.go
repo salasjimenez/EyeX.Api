@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/eyex-api/eyex/internal/models"
+	"github.com/salasjimenez/EyeX.Api/internal/models"
 )
 
 const (

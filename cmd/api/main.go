@@ -10,9 +10,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/eyex-api/eyex/internal/config"
-	"github.com/eyex-api/eyex/internal/handlers"
-	"github.com/eyex-api/eyex/internal/middleware"
+	"github.com/salasjimenez/EyeX.Api/internal/config"
+	"github.com/salasjimenez/EyeX.Api/internal/handlers"
+	"github.com/salasjimenez/EyeX.Api/internal/middleware"
 )
 
 func main() {

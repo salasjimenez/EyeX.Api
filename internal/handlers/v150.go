@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/eyex-api/eyex/internal/theme"
+	"github.com/salasjimenez/EyeX.Api/internal/theme"
 )
 
 type quickTestV150Answers struct {

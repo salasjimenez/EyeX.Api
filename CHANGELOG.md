@@ -2,6 +2,35 @@
 
 Todos los cambios relevantes de EyeX se documentan en este archivo. El proyecto sigue Semantic Versioning.
 
+## [Unreleased]
+
+### Changed
+
+- Contrato OpenAPI alineado con los campos y la ruta de feedback de v1.5.0.
+- Modelos y versiones de los SDKs sincronizados para el contrato v1.5.0.
+- Inspección y corrección de enlaces al repositorio público y del módulo Go.
+- Se retiró el indicador fijo de cobertura no verificado.
+
+### Compatibility
+
+- Se conservan las rutas HTTP públicas de `/api/v1/` y los parámetros históricos.
+- Cambia la ruta de importación Go a `github.com/salasjimenez/EyeX.Api`; las integraciones Go deben migrar sus imports.
+- No se publica ninguna release ni paquete en registros externos como parte de esta entrega.
+
+## [1.5.0] - Código existente en main al 2026-09-26
+
+### Added
+
+- Prueba visual orientativa ampliada: cinco indicadores adicionales, severidad y alto contraste.
+- `POST /api/v1/feedback` para registrar feedback de utilidad en el log del servidor.
+- Selección manual guiada y experiencia de usuario simplificada.
+- Extensión Manifest V3 con permisos `activeTab`, `storage` y `scripting`.
+
+### Compatibility
+
+- Se mantienen las rutas anteriores y los esquemas de simulación del contrato `/api/v1/`.
+- Esta entrada documenta funcionalidades observadas en el código; no representa una GitHub Release publicada.
+
 ## [1.2.0] - 2026-09-01
 
 ### Added

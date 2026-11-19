@@ -3,7 +3,7 @@ openapi: 3.0.3
 
 info:
   title: EyeX API
-  version: 1.2.0
+  version: 1.5.0
   description: >-
     API de temas de pantalla para daltonismo y baja vision. Devuelve paletas completas
     listas para aplicar a una interfaz e incluye simulacion de vision de color con severidad
@@ -147,6 +147,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/QuickTestResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '405': { $ref: '#/components/responses/MethodNotAllowed' }
+        '426': { $ref: '#/components/responses/HttpsRequired' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/InternalError' }
+        '504': { $ref: '#/components/responses/Timeout' }
+  /api/v1/feedback:
+    post:
+      summary: Registra feedback de utilidad sobre una sugerencia visual
+      description: >-
+        Registra en el log del servidor si una configuracion resulto util.
+        Esta version no garantiza almacenamiento permanente de los resultados.
+      operationId: submitFeedback
+      parameters:
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/ApiKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackRequest'
+            example:
+              suggested_type: deuteranopia
+              helpful: true
+      responses:
+        '200':
+          description: Feedback recibido y registrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedbackResponse'
+              example: {status: recorded}
         '400': { $ref: '#/components/responses/BadRequest' }
         '405': { $ref: '#/components/responses/MethodNotAllowed' }
         '426': { $ref: '#/components/responses/HttpsRequired' }
@@ -352,6 +385,11 @@ components:
         green_brown_confusion: { type: boolean }
         blue_yellow_confusion: { type: boolean }
         colors_look_gray: { type: boolean }
+        red_green_confusion: { type: boolean }
+        red_black_confusion: { type: boolean }
+        blue_green_confusion: { type: boolean }
+        yellow_pink_confusion: { type: boolean }
+        low_saturation_confusion: { type: boolean }
     QuickTestRequest:
       type: object
       additionalProperties: false
@@ -361,10 +399,29 @@ components:
     QuickTestResponse:
       type: object
       additionalProperties: false
-      required: [suggested_type, disclaimer]
+      required: [suggested_type, severity, high_contrast, disclaimer]
       properties:
         suggested_type: { $ref: '#/components/schemas/ThemeType' }
+        severity:
+          type: string
+          enum: [mild, moderate, severe]
+        high_contrast: { type: boolean }
         disclaimer: { type: string }
+    FeedbackRequest:
+      type: object
+      additionalProperties: false
+      required: [suggested_type, helpful]
+      properties:
+        suggested_type: { $ref: '#/components/schemas/ThemeType' }
+        helpful: { type: boolean }
+    FeedbackResponse:
+      type: object
+      additionalProperties: false
+      required: [status]
+      properties:
+        status:
+          type: string
+          enum: [recorded]
     SimulationType:
       type: string
       enum: [protanopia, deuteranopia, tritanopia]
@@ -435,7 +492,7 @@ components:
       properties:
         error:
           type: string
-          enum: [invalid_type, invalid_parameter, invalid_request, invalid_palette, invalid_color, not_found, method_not_allowed, rate_limited, timeout, internal_server_error, https_required]
+          enum: [invalid_type, invalid_parameter, invalid_request, invalid_palette, invalid_color, invalid_feedback, not_found, method_not_allowed, rate_limited, timeout, internal_server_error, https_required]
         message: { type: string }
   responses:
     BadRequest:

@@ -27,6 +27,9 @@ export class EyeXClient {
     suggest(answers) {
         return this.post("/api/v1/test/suggest", { answers });
     }
+    feedback(suggestedType, helpful) {
+        return this.post("/api/v1/feedback", { suggested_type: suggestedType, helpful });
+    }
     simulate(hex, type, severity = 1) {
         return this.post("/api/v1/simulate", { hex, type, severity });
     }

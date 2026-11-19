@@ -12,9 +12,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/eyex-api/eyex/internal/models"
-	"github.com/eyex-api/eyex/internal/theme"
-	"github.com/eyex-api/eyex/pkg/colorblind"
+	"github.com/salasjimenez/EyeX.Api/internal/models"
+	"github.com/salasjimenez/EyeX.Api/internal/theme"
+	"github.com/salasjimenez/EyeX.Api/pkg/colorblind"
 )
 
 const maxJSONBody = 32 << 10

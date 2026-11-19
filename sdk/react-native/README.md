@@ -1,6 +1,6 @@
 # @eyex/react-native
 
-Cliente TypeScript para consumir EyeX API desde React Native.
+Cliente TypeScript para consumir EyeX API v1.5.0 desde React Native.
 
 ## Instalación
 
@@ -48,4 +48,15 @@ const batch = await client.simulateBatch(
 );
 ```
 
-Métodos disponibles: `types`, `theme`, `custom`, `suggest`, `simulate` y `simulateBatch`.
+## Sugerencia ampliada y feedback (v1.5.0)
+
+La respuesta `suggest` incluye `severity` (`mild`, `moderate` o `severe`)
+y `high_contrast` (booleano), además de los campos históricos.
+Las cinco señales visuales nuevas son opcionales y no modifican la firma
+obligatoria de los cuatro indicadores anteriores.
+
+La operación `feedback` envía `suggested_type` y `helpful` a
+`POST /api/v1/feedback`; devuelve `status: recorded`. En la implementación
+actual, el servidor registra la respuesta en logs, sin persistencia garantizada.
+
+Métodos disponibles: `types`, `theme`, `custom`, `suggest`, `feedback`, `simulate` y `simulateBatch`.

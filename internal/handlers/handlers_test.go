@@ -8,7 +8,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/eyex-api/eyex/internal/models"
+	"github.com/salasjimenez/EyeX.Api/internal/models"
 )
 
 func TestThemeTypes(t *testing.T) {

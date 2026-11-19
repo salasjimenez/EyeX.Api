@@ -1,6 +1,6 @@
 # @eyex/react
 
-Cliente React para EyeX API `v1.2.0`.
+Cliente React para EyeX API `v1.5.0`.
 
 ## Instalación
 
@@ -61,4 +61,15 @@ const result = await client.simulateBatch(
 );
 ```
 
-Métodos disponibles: `types`, `theme`, `custom`, `suggest`, `simulate` y `simulateBatch`.
+## Sugerencia ampliada y feedback (v1.5.0)
+
+La respuesta `suggest` incluye `severity` (`mild`, `moderate` o `severe`)
+y `high_contrast` (booleano), además de los campos históricos.
+Las cinco señales visuales nuevas son opcionales y no modifican la firma
+obligatoria de los cuatro indicadores anteriores.
+
+La operación `feedback` envía `suggested_type` y `helpful` a
+`POST /api/v1/feedback`; devuelve `status: recorded`. En la implementación
+actual, el servidor registra la respuesta en logs, sin persistencia garantizada.
+
+Métodos disponibles: `types`, `theme`, `custom`, `suggest`, `feedback`, `simulate` y `simulateBatch`.

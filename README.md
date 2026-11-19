@@ -1,7 +1,6 @@
 # EyeX
 
-[![EyeX CI](https://github.com/sjhonn/API-EyeX/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/sjhonn/API-EyeX/actions/workflows/ci.yml)
-[![Coverage](https://img.shields.io/badge/coverage-63.9%25-yellowgreen)](https://github.com/sjhonn/API-EyeX/actions/workflows/ci.yml)
+[![EyeX CI](https://github.com/salasjimenez/EyeX.Api/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/salasjimenez/EyeX.Api/actions/workflows/ci.yml)
 [![Go](https://img.shields.io/badge/Go-1.23%2B-00ADD8?logo=go&logoColor=white)](https://go.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -12,6 +11,8 @@ EyeX es una API de accesibilidad visual orientada a color. Entrega temas para da
 Desde `v1.5.0`, la experiencia para usuarios finales se simplifica a dos caminos: detección automática mediante una prueba visual y selección manual guiada. La API técnica `/api/v1/` mantiene compatibilidad con las integraciones existentes.
 
 El contrato HTTP principal está disponible en Go y mantiene implementaciones equivalentes en PHP, TypeScript/Node y Java. El repositorio también incluye clientes web, SDKs, una extensión de navegador y manifiestos de infraestructura. Este README se concentra en desarrollo y uso del API; el hosting no forma parte del alcance de esta versión.
+
+La cobertura exacta no se publica como badge estático: debe consultarse en los logs del workflow de CI hasta que exista un reporte automatizado.
 
 ## Quickstart — 30 segundos
 
@@ -214,7 +215,7 @@ Los campos históricos `suggested_type` y `disclaimer` se conservan.
 
 ### Feedback de la sugerencia
 
-`POST /api/v1/feedback` registra si la configuración sugerida ayudó al usuario.
+`POST /api/v1/feedback` registra en los logs del servidor si la configuración sugerida ayudó al usuario; no garantiza almacenamiento permanente.
 
 ```bash
 curl -X POST http://localhost:8080/api/v1/feedback \
@@ -325,7 +326,7 @@ Los cuatro backends comparten los mismos coeficientes, reglas de interpolación,
 
 ## Paridad entre Go, PHP, TypeScript/Node y Java
 
-[![Última paridad verificada](https://img.shields.io/github/actions/workflow/status/sjhonn/API-EyeX/ci.yml?branch=main&label=%C3%BAltima%20paridad%20verificada%20%E2%9C%85)](https://github.com/sjhonn/API-EyeX/actions/workflows/ci.yml?query=branch%3Amain)
+[![Última paridad verificada](https://img.shields.io/github/actions/workflow/status/salasjimenez/EyeX.Api/ci.yml?branch=main&label=%C3%BAltima%20paridad%20verificada%20%E2%9C%85)](https://github.com/salasjimenez/EyeX.Api/actions/workflows/ci.yml?query=branch%3Amain)
 
 El workflow `EyeX CI` levanta los cuatro backends en puertos independientes y ejecuta `tests/parity.py`. Se comparan status HTTP y JSON, y además se validan vectores conocidos de Machado para evitar que una misma regresión pase inadvertida en los cuatro lenguajes.
 
@@ -612,11 +613,18 @@ cd implementations/java
 EYEX_PORT=8083 mvn spring-boot:run
 ```
 
+## Migración del módulo Go
+
+A partir de esta alineación, el módulo Go se identifica como
+`github.com/salasjimenez/EyeX.Api`. Si importabas
+`github.com/eyex-api/eyex`, actualiza tus imports a la ruta pública nueva.
+Este cambio afecta a consumidores Go; el contrato HTTP `/api/v1/` no cambia.
+
 ## OpenAPI y compatibilidad
 
 `openapi.yaml` es el contrato público versionado. `v1.2.0` agrega `/api/v1/simulate` y `/api/v1/simulate/batch` de forma aditiva; no modifica ni elimina las rutas de tema existentes.
 
-El CI valida que las rutas históricas y las nuevas continúen presentes y ejecuta la paridad HTTP del contrato v1 —incluida la simulación— antes de considerar el workflow correcto.
+El contrato OpenAPI está documentado como v1.5.0 e incluye el test ampliado y el feedback. El CI existente valida las rutas históricas y ejecuta la paridad HTTP de las implementaciones. La ampliación específica de CI y paridad para v1.5.0 se abordará en la segunda parte.
 
 ## Producción, dominio y HTTPS — v1.5.0
 
