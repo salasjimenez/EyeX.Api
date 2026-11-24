@@ -31,7 +31,7 @@ jobs:
       - run: go vet ./...
       - name: Coverage artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: eyex-go-coverage
           path: |
@@ -247,7 +247,7 @@ jobs:
           python3 tests/parity_extended.py --wait 120
       - name: Upload parity logs on failure
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: eyex-parity-logs
           path: parity-logs/*.log
