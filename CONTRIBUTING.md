@@ -6,7 +6,7 @@ Este repositorio mantiene un contrato HTTP compartido entre Go, PHP, TypeScript/
 
 Herramientas recomendadas:
 
-- Go 1.23 o superior;
+- Go 1.26 o superior;
 - PHP 8.4 o compatible con las características usadas por el proyecto;
 - Node.js 22 y npm;
 - Java 21 y Maven 3.9+;

@@ -1,0 +1,33 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+  - package-ecosystem: gomod
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+  - package-ecosystem: maven
+    directory: /implementations/java
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+  - package-ecosystem: pub
+    directory: /sdk/flutter
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+  - package-ecosystem: npm
+    directories:
+      - /implementations/typescript-node
+      - /frontend/vue
+      - /web
+      - /sdk/react
+      - /sdk/react-native
+      - /sdk-ts
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 8

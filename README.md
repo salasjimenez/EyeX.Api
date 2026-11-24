@@ -1,7 +1,7 @@
 # EyeX
 
 [![EyeX CI](https://github.com/salasjimenez/EyeX.Api/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/salasjimenez/EyeX.Api/actions/workflows/ci.yml)
-[![Go](https://img.shields.io/badge/Go-1.23%2B-00ADD8?logo=go&logoColor=white)](https://go.dev/)
+[![Go](https://img.shields.io/badge/Go-1.26%2B-00ADD8?logo=go&logoColor=white)](https://go.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 <img src="frontend/html-js/assets/logo.png" alt="Logo de EyeX" width="180">
@@ -16,7 +16,7 @@ La cobertura exacta no se publica como badge estático: debe consultarse en los 
 
 ## Quickstart — 30 segundos
 
-Requisito: Go 1.23 o superior.
+Requisito: Go 1.26 o superior.
 
 ```bash
 go run ./cmd/api

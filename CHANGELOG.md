@@ -4,6 +4,28 @@ Todos los cambios relevantes de EyeX se documentan en este archivo. El proyecto 
 
 ## [Unreleased]
 
+### Parte 2: calidad, CI y seguridad
+
+#### Changed
+
+- Toolchain Go minimo actualizado a 1.26 y CI/Docker con Go 1.27.4.
+- CI ejecuta Node.js 24 LTS y `npm ci` con lockfiles versionados.
+- Backend Java actualizado a Spring Boot 4.0.10 y starter Web MVC; requiere validar paridad.
+- Coverage Go con detector de carreras y reporte descargable.
+- Pruebas HTTP de paridad ampliadas con casos v1.5.0.
+
+#### Added
+
+- Dependabot para npm, Maven, Go, Dart y GitHub Actions.
+- CodeQL, Trivy (filesystem e imagen) y SBOM SPDX JSON.
+- Scripts para generar lockfiles reproducibles y empaquetar archivos modificados.
+
+#### Verification
+
+- Antes del merge deben pasar `mvn test`, builds npm y paridad HTTP de los cuatro runtimes.
+- Los findings de Trivy se reportan, aun no son bloqueo automatico de CI.
+
+
 ### Changed
 
 - Contrato OpenAPI alineado con los campos y la ruta de feedback de v1.5.0.
